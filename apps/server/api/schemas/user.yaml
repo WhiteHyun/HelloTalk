@@ -1,0 +1,28 @@
+User:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+      example: "550e8400-e29b-41d4-a716-446655440000"
+    email:
+      type: string
+      format: email
+      example: "user@example.com"
+    name:
+      type: string
+      example: "홍길동"
+    avatar_url:
+      type: string
+      format: uri
+      nullable: true
+      example: null
+    created_at:
+      type: string
+      format: date-time
+      example: "2026-04-04T12:00:00Z"
+  required:
+    - id
+    - email
+    - name
+    - created_at

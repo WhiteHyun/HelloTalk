@@ -1,0 +1,69 @@
+openapi: "3.1.0"
+info:
+  title: HelloTalk API
+  description: HelloTalk 소셜 커뮤니케이션 플랫폼 API
+  version: "0.1.0"
+
+servers:
+  - url: http://localhost:8080
+    description: Local development
+
+paths:
+  # Auth
+  /api/v1/auth/signup:
+    $ref: "./paths/auth.yaml#/paths/signup"
+  /api/v1/auth/login:
+    $ref: "./paths/auth.yaml#/paths/login"
+  /api/v1/auth/refresh:
+    $ref: "./paths/auth.yaml#/paths/refresh"
+  /api/v1/auth/logout:
+    $ref: "./paths/auth.yaml#/paths/logout"
+
+  # User
+  /api/v1/users/me:
+    get:
+      $ref: "./paths/user.yaml#/paths/me/get"
+    put:
+      $ref: "./paths/user.yaml#/paths/me-update/put"
+  /api/v1/users/me/avatar:
+    $ref: "./paths/user.yaml#/paths/me-avatar"
+  /api/v1/users/{id}:
+    $ref: "./paths/user.yaml#/paths/by-id"
+
+  # Feed
+  /api/v1/posts:
+    post:
+      $ref: "./paths/feed.yaml#/paths/create/post"
+    get:
+      $ref: "./paths/feed.yaml#/paths/list/get"
+  /api/v1/posts/{id}:
+    get:
+      $ref: "./paths/feed.yaml#/paths/by-id/get"
+    put:
+      $ref: "./paths/feed.yaml#/paths/update/put"
+    delete:
+      $ref: "./paths/feed.yaml#/paths/delete/delete"
+  /api/v1/posts/{id}/like:
+    post:
+      $ref: "./paths/feed.yaml#/paths/like/post"
+    delete:
+      $ref: "./paths/feed.yaml#/paths/unlike/delete"
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    Error:
+      $ref: "./schemas/error.yaml#/Error"
+    User:
+      $ref: "./schemas/user.yaml#/User"
+    Token:
+      $ref: "./schemas/token.yaml#/Token"
+    Post:
+      $ref: "./schemas/post.yaml#/Post"
+    Feed:
+      $ref: "./schemas/post.yaml#/Feed"
