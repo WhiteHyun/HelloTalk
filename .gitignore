@@ -30,3 +30,35 @@ go.work.sum
 # Editor/IDE
 # .idea/
 # .vscode/
+
+# Node.js
+node_modules/
+npm-debug.log*
+
+# React Native
+*.jsbundle
+*.hbc
+
+# iOS
+Pods/
+*.xcworkspace
+build/
+DerivedData/
+*.pbxuser
+*.mode1v3
+*.mode2v3
+*.perspectivev3
+*.xcuserstate
+
+# Android
+*.apk
+*.aab
+.gradle/
+local.properties
+
+# Metro
+.metro-health-check*
+
+# Misc
+.DS_Store
+*.tgz
