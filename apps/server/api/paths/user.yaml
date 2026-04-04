@@ -1,0 +1,132 @@
+paths:
+  me:
+    get:
+      tags:
+        - User
+      summary: 내 프로필 조회
+      operationId: getMe
+      security:
+        - BearerAuth: []
+      responses:
+        "200":
+          description: 프로필 조회 성공
+          content:
+            application/json:
+              schema:
+                $ref: "../schemas/user.yaml#/User"
+        "401":
+          description: 인증 실패
+          content:
+            application/json:
+              schema:
+                $ref: "../schemas/error.yaml#/Error"
+
+  me-update:
+    put:
+      tags:
+        - User
+      summary: 내 프로필 수정
+      operationId: updateMe
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  minLength: 1
+                  maxLength: 50
+                  example: "새이름"
+      responses:
+        "200":
+          description: 프로필 수정 성공
+          content:
+            application/json:
+              schema:
+                $ref: "../schemas/user.yaml#/User"
+        "400":
+          description: 잘못된 요청
+          content:
+            application/json:
+              schema:
+                $ref: "../schemas/error.yaml#/Error"
+        "401":
+          description: 인증 실패
+          content:
+            application/json:
+              schema:
+                $ref: "../schemas/error.yaml#/Error"
+
+  me-avatar:
+    post:
+      tags:
+        - User
+      summary: 아바타 업로드
+      operationId: uploadAvatar
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - avatar
+              properties:
+                avatar:
+                  type: string
+                  format: binary
+                  description: "jpg, jpeg, png 파일 (최대 10MB)"
+      responses:
+        "200":
+          description: 아바타 업로드 성공
+          content:
+            application/json:
+              schema:
+                $ref: "../schemas/user.yaml#/User"
+        "400":
+          description: 잘못된 파일
+          content:
+            application/json:
+              schema:
+                $ref: "../schemas/error.yaml#/Error"
+        "401":
+          description: 인증 실패
+          content:
+            application/json:
+              schema:
+                $ref: "../schemas/error.yaml#/Error"
+
+  by-id:
+    get:
+      tags:
+        - User
+      summary: 다른 유저 프로필 조회
+      operationId: getUser
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: 프로필 조회 성공
+          content:
+            application/json:
+              schema:
+                $ref: "../schemas/user.yaml#/User"
+        "404":
+          description: 유저를 찾을 수 없음
+          content:
+            application/json:
+              schema:
+                $ref: "../schemas/error.yaml#/Error"

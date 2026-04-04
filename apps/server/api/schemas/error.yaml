@@ -1,0 +1,14 @@
+Error:
+  type: object
+  properties:
+    code:
+      type: string
+      description: 에러 코드 (클라이언트가 분기 처리에 사용)
+      example: "INVALID_CREDENTIALS"
+    message:
+      type: string
+      description: 사람이 읽을 수 있는 에러 메시지
+      example: "이메일 또는 비밀번호가 올바르지 않습니다"
+  required:
+    - code
+    - message

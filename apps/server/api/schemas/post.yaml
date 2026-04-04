@@ -1,0 +1,51 @@
+Post:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+      example: "c7701e79-51e0-4384-b4d9-3ed97b752ade"
+    user_id:
+      type: string
+      format: uuid
+      example: "550e8400-e29b-41d4-a716-446655440000"
+    user_name:
+      type: string
+      example: "홍길동"
+    content:
+      type: string
+      example: "첫 번째 게시글입니다!"
+    like_count:
+      type: integer
+      example: 3
+    liked:
+      type: boolean
+      description: 현재 유저가 좋아요 했는지
+      example: false
+    created_at:
+      type: string
+      format: date-time
+      example: "2026-04-04T12:00:00Z"
+  required:
+    - id
+    - user_id
+    - user_name
+    - content
+    - like_count
+    - liked
+    - created_at
+
+Feed:
+  type: object
+  properties:
+    posts:
+      type: array
+      items:
+        $ref: "#/Post"
+    next_cursor:
+      type: string
+      nullable: true
+      description: 다음 페이지 커서 (없으면 null)
+      example: "MjAyNi0wNC0wNFQxMjowMDowMFo="
+  required:
+    - posts

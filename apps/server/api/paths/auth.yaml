@@ -1,0 +1,164 @@
+paths:
+  signup:
+    post:
+      tags:
+        - Auth
+      summary: 회원가입
+      operationId: signup
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+                - name
+              properties:
+                email:
+                  type: string
+                  format: email
+                  example: "user@example.com"
+                password:
+                  type: string
+                  format: password
+                  minLength: 8
+                  example: "securepass123"
+                name:
+                  type: string
+                  minLength: 1
+                  maxLength: 50
+                  example: "홍길동"
+      responses:
+        "201":
+          description: 회원가입 성공
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user:
+                    $ref: "../schemas/user.yaml#/User"
+                  token:
+                    $ref: "../schemas/token.yaml#/Token"
+        "400":
+          description: 잘못된 요청 (유효성 검증 실패)
+          content:
+            application/json:
+              schema:
+                $ref: "../schemas/error.yaml#/Error"
+        "409":
+          description: 이미 존재하는 이메일
+          content:
+            application/json:
+              schema:
+                $ref: "../schemas/error.yaml#/Error"
+
+  login:
+    post:
+      tags:
+        - Auth
+      summary: 로그인
+      operationId: login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                  format: email
+                  example: "user@example.com"
+                password:
+                  type: string
+                  format: password
+                  example: "securepass123"
+      responses:
+        "200":
+          description: 로그인 성공
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user:
+                    $ref: "../schemas/user.yaml#/User"
+                  token:
+                    $ref: "../schemas/token.yaml#/Token"
+        "401":
+          description: 이메일 또는 비밀번호 불일치
+          content:
+            application/json:
+              schema:
+                $ref: "../schemas/error.yaml#/Error"
+
+  refresh:
+    post:
+      tags:
+        - Auth
+      summary: 토큰 갱신
+      operationId: refreshToken
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - refresh_token
+              properties:
+                refresh_token:
+                  type: string
+                  description: 로그인 시 발급받은 리프레시 토큰
+      responses:
+        "200":
+          description: 토큰 갱신 성공
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    $ref: "../schemas/token.yaml#/Token"
+        "401":
+          description: 유효하지 않거나 만료된 리프레시 토큰
+          content:
+            application/json:
+              schema:
+                $ref: "../schemas/error.yaml#/Error"
+
+  logout:
+    post:
+      tags:
+        - Auth
+      summary: 로그아웃
+      operationId: logout
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - refresh_token
+              properties:
+                refresh_token:
+                  type: string
+                  description: 폐기할 리프레시 토큰
+      responses:
+        "204":
+          description: 로그아웃 성공 (리프레시 토큰 폐기됨)
+        "401":
+          description: 인증 실패
+          content:
+            application/json:
+              schema:
+                $ref: "../schemas/error.yaml#/Error"

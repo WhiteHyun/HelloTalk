@@ -1,0 +1,17 @@
+Token:
+  type: object
+  properties:
+    access_token:
+      type: string
+      description: JWT 액세스 토큰 (짧은 만료 시간)
+    refresh_token:
+      type: string
+      description: 리프레시 토큰 (긴 만료 시간, 1회용)
+    expires_in:
+      type: integer
+      description: 액세스 토큰 만료까지 남은 초
+      example: 3600
+  required:
+    - access_token
+    - refresh_token
+    - expires_in
